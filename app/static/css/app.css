@@ -1,3 +1,105 @@
 body {
     padding-top: 5rem;
 }
+
+/* Style for the new property page */
+body {
+    background-color: #f1f2f4;
+}
+
+.parent-container {
+    display: inline-block;
+    width: 60%;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+.form-container {
+    max-width: 100% ;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.form-group label, .form-compound-group label {
+    display: block;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.form-compound-group {
+    display: flex;
+    flex-direction: row;
+    gap: 70px;
+}
+
+.form-subgroup .form-control {
+    width: 320px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btn {
+    width: 120px;
+}
+
+/* Style for the property listing page */
+.properties-grid {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.property-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-image img{
+    width: 80px;
+    height: 80px;
+}
+
+.property-details {
+    padding: 10px;
+}
+
+.property-card h3 {
+    font-size: 18px;
+}
+
+.property-card p {
+    font-size: 14px;
+}
+
+.property-card .price {
+    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+    font-size: 12px !important;
+    width: fit-content;
+    border-radius: 15px;
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #5da3f8;
+}
+
+.property-actions {
+    background-color: #0d6efd;
+}
+
+.property-card .btn {
+    width: 100%;
+    height: 100%;
+    background-color: #0d6efd;
+    color: #fff;
+}

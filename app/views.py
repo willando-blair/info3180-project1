@@ -5,8 +5,13 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash
+from .forms import PropertyForm
+from .models import Property
+from datetime import datetime
+import os
+from werkzeug.utils import secure_filename
 
 
 ###
@@ -22,8 +27,47 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Willando Blair")
 
+@app.route('/properties/create/', methods=['GET', 'POST'])
+def properties_create():
+    form = PropertyForm()
+
+    if form.validate_on_submit():
+        photo = form.photo.data
+        filename = secure_filename(photo.filename)
+        filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{filename}"
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # Create property
+        new_property = Property(
+            title=form.title.data,
+            description=form.description.data,
+            rooms=form.rooms.data,
+            bathrooms=form.bathrooms.data,
+            price=form.price.data,
+            type=form.type.data,
+            location=form.location.data,
+            photo_filename=filename,
+            created_at=datetime.now()
+        )
+
+        db.session.add(new_property)
+        db.session.commit()
+
+        flash('Property added successfully!', 'success')
+        return redirect(url_for('properties'))
+    return render_template('new_property.html', form=form)
+
+@app.route('/properties/')
+def properties():
+    all_properties = Property.query.order_by(Property.created_at.desc()).all()
+    return render_template('properties.html', properties=all_properties)
+
+@app.route('/properties/<property_id>/')
+def view_property(property_id):
+    active_property = Property.query.get_or_404(property_id)
+    return render_template('property.html', property=active_property)
 
 ###
 # The functions below should be applicable to all Flask apps.

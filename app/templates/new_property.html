@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block main %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="parent-container">
+    <h1>Add New Property</h1>
+    <div class="form-container">
+        <form method="POST"  enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.title.label }}
+                {{ form.title(class="form-control", size=180) }}
+            </div>
+            <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(class="form-control", size=400) }}
+            </div>
+            <div class = "form-compound-group">
+                <div class="form-subgroup">
+                    {{ form.rooms.label }}
+                    {{ form.rooms(class="form-control", size=2) }}
+                </div>
+                <div class="form-subgroup">
+                    {{ form.bathrooms.label }}
+                    {{ form.bathrooms(class="form-control", size=2) }}
+                </div>
+            </div>
+            <div class="form-compound-group">
+                <div class="form-subgroup">
+                    {{ form.price.label }}
+                    {{ form.price(class="form-control", size=12) }}
+                </div>
+                <div class="form-subgroup">
+                    {{ form.type.label }}
+                    {{ form.type(class="form-control") }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.location.label }}
+                {{ form.location(class="form-control", size=120) }}
+            </div>
+            <div class="form-group">
+                {{ form.photo.label }}
+                {{ form.photo(class="form-control") }}
+            </div>
+
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

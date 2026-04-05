@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="container">
+    <h1>Properties</h1>
+
+    <div class="properties-grid">
+        {% for property in properties %}
+        <div class="property-card">
+            <div class="property-image">
+                <img src="{{ url_for('static', filename='uploads/' + property.photo_filename) }}" alt="{{ property.title }}">
+            </div>
+            <div class="property-details">
+                <h3>{{ property.title }}</h3>
+                <p>&#128205; {{ property.location }}</p>
+                <p class="price">${{ property.price }}</p>
+            </div>
+            <div class="property-actions">
+                 <button href="{{ url_for('view_property', property_id=property.id) }}" class="btn">View Property</button>
+            </div>
+        </div>
+        {% else %}
+        <p>No properties found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
