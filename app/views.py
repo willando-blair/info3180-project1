@@ -11,7 +11,7 @@ from .forms import PropertyForm
 from .models import Property
 from datetime import datetime
 import os
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, send_from_directory
 
 
 ###
@@ -23,7 +23,6 @@ def home():
     """Render website's home page."""
     return render_template('home.html')
 
-
 @app.route('/about/')
 def about():
     """Render the website's about page."""
@@ -31,15 +30,16 @@ def about():
 
 @app.route('/properties/create/', methods=['GET', 'POST'])
 def properties_create():
+    """Render the website's add properties page."""
     form = PropertyForm()
 
     if form.validate_on_submit():
         photo = form.photo.data
         filename = secure_filename(photo.filename)
         filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{filename}"
-        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        photo.save(os.path.join(os.getcwd(), 'app/static/uploads/', filename))
 
-        # Create property
+        """Create property"""
         new_property = Property(
             title=form.title.data,
             description=form.description.data,
@@ -61,12 +61,14 @@ def properties_create():
 
 @app.route('/properties/')
 def properties():
+    """Renders the view properties page"""
     all_properties = Property.query.order_by(Property.created_at.desc()).all()
     return render_template('properties.html', properties=all_properties)
 
 @app.route('/properties/<property_id>/')
 def view_property(property_id):
-    active_property = Property.query.get_or_404(property_id)
+    """Renders the view single property page"""
+    active_property = Property.query.filter_by(id=property_id).first()
     return render_template('property.html', property=active_property)
 
 ###
